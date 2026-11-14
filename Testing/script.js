@@ -44,10 +44,34 @@ let selectedImageData = "";
 const MAX_IMAGE_SIZE = 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
+function generateId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    try {
+      return crypto.randomUUID();
+    } catch (e) {
+      // Fall through to fallback
+    }
+  }
+  return "post_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+}
+
 function loadPosts() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(saved) ? saved : [];
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const saved = JSON.parse(raw);
+    if (!Array.isArray(saved)) return [];
+    return saved.filter((item) => item && typeof item === "object").map((item) => ({
+      id: item.id || generateId(),
+      type: item.type || "Lost",
+      status: item.status || "Open",
+      item: item.item || "",
+      description: item.description || "",
+      location: item.location || "",
+      date: item.date || "",
+      contact: item.contact || "",
+      image: item.image || ""
+    }));
   } catch (error) {
     showFeedback("Saved posts could not be loaded.", true);
     return [];
@@ -156,14 +180,24 @@ function validateForm() {
 }
 
 function normalizeContact(value) {
-  const trimmedValue = value.trim().toLowerCase();
+  if (!value) return "";
+  const trimmedValue = String(value).trim().toLowerCase();
   const digitsOnly = trimmedValue.replace(/\D/g, "");
   return digitsOnly.length >= 7 ? digitsOnly : trimmedValue.replace(/\s+/g, "");
 }
 
 function formatDate(dateString) {
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" })
-    .format(new Date(`${dateString}T00:00:00`));
+  if (!dateString) return "N/A";
+  const dateObj = new Date(`${dateString}T00:00:00`);
+  if (Number.isNaN(dateObj.getTime())) {
+    return String(dateString);
+  }
+  try {
+    return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" })
+      .format(dateObj);
+  } catch (e) {
+    return String(dateString);
+  }
 }
 
 function renderPosts() {
@@ -189,30 +223,33 @@ function renderPosts() {
 }
 
 function postTemplate(post) {
+  const type = post.type || "Lost";
+  const status = post.status || "Open";
   return `
-    <article class="post-card ${post.status === "Resolved" ? "resolved" : ""}">
+    <article class="post-card ${status === "Resolved" ? "resolved" : ""}">
       <div class="post-top">
-        <span class="tag ${post.type.toLowerCase()}">${post.type.toUpperCase()}</span>
-        <span class="post-status">${post.status.toUpperCase()}</span>
+        <span class="tag ${type.toLowerCase()}">${type.toUpperCase()}</span>
+        <span class="post-status">${status.toUpperCase()}</span>
       </div>
-      ${post.image ? `<img class="post-image" src="${escapeHtml(post.image)}" alt="Photo of ${escapeHtml(post.item)}" loading="lazy">` : ""}
-      <h3>${escapeHtml(post.item)}</h3>
-      <p>${escapeHtml(post.description)}</p>
+      ${post.image ? `<img class="post-image" src="${escapeHtml(post.image)}" alt="Photo of ${escapeHtml(post.item || "item")}" loading="lazy">` : ""}
+      <h3>${escapeHtml(post.item || "Untitled item")}</h3>
+      <p>${escapeHtml(post.description || "")}</p>
       <div class="post-meta">
-        <div><span class="post-meta-label">Location:</span> ${escapeHtml(post.location)}</div>
+        <div><span class="post-meta-label">Location:</span> ${escapeHtml(post.location || "N/A")}</div>
         <div><span class="post-meta-label">Date:</span> ${formatDate(post.date)}</div>
-        <div><span class="post-meta-label">Contact:</span> ${escapeHtml(post.contact)}</div>
+        <div><span class="post-meta-label">Contact:</span> ${escapeHtml(post.contact || "N/A")}</div>
       </div>
       <div class="post-actions">
-        ${post.status === "Open" ? `<button class="text-button" data-action="resolve" data-id="${post.id}">Mark resolved</button>` : ""}
-        <button class="text-button" data-action="edit" data-id="${post.id}">Edit</button>
-        <button class="text-button delete" data-action="delete" data-id="${post.id}">Delete</button>
+        ${status === "Open" ? `<button class="text-button" data-action="resolve" data-id="${escapeHtml(post.id)}">Mark resolved</button>` : ""}
+        <button class="text-button" data-action="edit" data-id="${escapeHtml(post.id)}">Edit</button>
+        <button class="text-button delete" data-action="delete" data-id="${escapeHtml(post.id)}">Delete</button>
       </div>
     </article>`;
 }
 
 function escapeHtml(value) {
-  return value.replace(/[&<>"']/g, (character) => ({
+  if (value === null || value === undefined) return "";
+  return String(value).replace(/[&<>"']/g, (character) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
   }[character]));
 }
@@ -243,6 +280,7 @@ function saveFormPost() {
     showFeedback("Your post was updated.");
   } else {
     posts.push({ ...postData, id: crypto.randomUUID(), status: "Open" });
+    posts.push({ ...postData, id: generateId(), status: "Open" });
     showFeedback("Your post is now live on the board.");
   }
   savePosts();
@@ -333,5 +371,134 @@ elements.postList.addEventListener("click", (event) => {
   }
   renderPosts();
 });
+
+// --- Navigation & Smooth Scroll for Navbar (Home, Board, About Us) ---
+function initNavigation() {
+  const navLinks = document.querySelectorAll(".primary-nav a");
+  const homeLink = document.querySelector('.primary-nav a[href="#top"]');
+  const boardLink = document.querySelector('.primary-nav a[href="#community-board"]');
+  const aboutLink = document.querySelector('.primary-nav a[href="#about-us"]');
+  const boardSection = document.querySelector("#community-board");
+  const aboutSection = document.querySelector("#about-us");
+  const brandLink = document.querySelector(".site-header .brand");
+  const heroBoardBtn = document.querySelector('.hero-button[href="#community-board"]');
+  const heroPostBtn = document.querySelector('.hero-button[href="#post-item"]');
+  const scrollHint = document.querySelector(".scroll-hint");
+
+  function setActiveNav(targetHref) {
+    navLinks.forEach((link) => {
+      const isMatch = link.getAttribute("href") === targetHref;
+      link.classList.toggle("active", isMatch);
+      if (isMatch) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  }
+
+  function smoothScrollTo(targetId) {
+    if (targetId === "#top" || targetId === "#") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+      setActiveNav("#top");
+      return;
+    }
+
+    const targetEl = document.querySelector(targetId);
+    if (!targetEl) return;
+
+    const header = document.querySelector(".site-header");
+    const headerHeight = header ? header.getBoundingClientRect().height : 72;
+    const extraOffset = 18;
+    const targetPosition = targetEl.getBoundingClientRect().top + window.pageYOffset - (headerHeight + extraOffset);
+
+    window.scrollTo({
+      top: Math.max(0, targetPosition),
+      behavior: "smooth"
+    });
+
+    setActiveNav(targetId);
+  }
+
+  function updateHistory(href) {
+    try {
+      if (window.history && window.history.pushState) {
+        window.history.pushState(null, "", href);
+      }
+    } catch (e) {
+      // Silently ignore SecurityError on file:// protocol
+    }
+  }
+
+  // Handle primary nav link clicks (Home, Board, About Us)
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        event.preventDefault();
+        smoothScrollTo(href);
+        if (history.pushState) {
+          history.pushState(null, "", href);
+        }
+        updateHistory(href);
+      }
+    });
+  });
+
+  // Handle Brand Logo click -> scrolls smoothly to top (Home)
+  if (brandLink) {
+    brandLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      smoothScrollTo("#top");
+      if (history.pushState) {
+        history.pushState(null, "", "#top");
+      }
+      updateHistory("#top");
+    });
+  }
+
+  // Handle hero button clicks
+  [heroBoardBtn, heroPostBtn, scrollHint].forEach((btn) => {
+    if (!btn) return;
+    btn.addEventListener("click", (event) => {
+      const href = btn.getAttribute("href");
+      if (href && href.startsWith("#")) {
+        event.preventDefault();
+        smoothScrollTo(href);
+        if (history.pushState) {
+          history.pushState(null, "", href);
+        }
+        updateHistory(href);
+      }
+    });
+  });
+
+  // ScrollSpy: dynamically sync the active navbar indicator as user scrolls
+  let isTicking = false;
+  window.addEventListener("scroll", () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(() => {
+        const triggerPoint = window.innerHeight * 0.45;
+        const aboutRect = aboutSection ? aboutSection.getBoundingClientRect() : null;
+        const boardRect = boardSection ? boardSection.getBoundingClientRect() : null;
+
+        if (aboutRect && aboutRect.top <= triggerPoint) {
+          setActiveNav("#about-us");
+        } else if (boardRect && boardRect.top <= triggerPoint) {
+          setActiveNav("#community-board");
+        } else {
+          setActiveNav("#top");
+        }
+        isTicking = false;
+      });
+      isTicking = true;
+    }
+  }, { passive: true });
+}
+
+initNavigation();
 
 renderPosts();
