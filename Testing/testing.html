@@ -31,37 +31,34 @@
     </div>
   </header>
 
-  <main id="top" class="container">
-    <section class="hero" aria-label="FindIT campus community bulletin">
+  <section id="top" class="hero hero-full" aria-label="FindIT campus community bulletin">
+    <div class="container hero-wrap">
       <div class="hero-inner">
         <div class="hero-kicker">
           <span class="status-dot"></span>
-          <span>CAMPUS COMMUNITY BULLETIN</span>
+          <span>Campus community bulletin</span>
           <span class="kicker-sep">/</span>
-          <span><strong id="openCount">0</strong> ACTIVE REPORTS</span>
+          <span><strong id="openCount">0</strong> active reports</span>
         </div>
         <h1 class="hero-title">
           <span class="title-line">Find what matters.</span>
           <span class="title-line">Campus Lost &amp; Found</span>
-          <span class="title-line title-accent">RETURN WHAT’S FOUND</span>
+          <span class="title-line title-accent">Return what’s found.</span>
         </h1>
         <p class="hero-copy">
-          A single, organized digital bulletin board for our campus community to report lost items, 
+          A single, organized digital bulletin board for our campus community to report lost items,
           browse found belongings, and help them find their way home.
         </p>
         <div class="hero-actions">
           <a class="hero-button hero-button-primary" href="#community-board">
-            <span>BROWSE THE BOARD</span>
-            <span class="btn-icon">&rarr;</span>
-          </a>
-          <a class="hero-button hero-button-secondary" href="#post-item">
-            <span>POST AN ITEM</span>
-            <span class="btn-icon">+</span>
+            <span>Browse the board</span>
           </a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
+  <main class="container">
     <section class="summary-grid" aria-label="Board summary">
       <article class="summary-card">
         <strong id="totalCount">0</strong>
@@ -87,7 +84,6 @@
       <aside id="post-item" class="panel form-panel">
         <div class="panel-heading">
           <div>
-            <p class="section-kicker">01 / POST AN ITEM</p>
             <h2 id="formTitle">Create a post</h2>
           </div>
           <span class="heading-icon">+</span>
@@ -143,10 +139,8 @@
       <section id="community-board" class="board">
         <div class="board-heading">
           <div>
-            <p class="section-kicker">02 / COMMUNITY BOARD</p>
             <h2>Recent reports <span id="resultCount" class="result-count">0</span></h2>
           </div>
-          <span class="board-label">COMMUNITY BOARD</span>
         </div>
 
         <div class="controls panel">
@@ -181,7 +175,7 @@
     </section>
 
     <section class="how-it-works">
-      <p class="section-kicker">03 / HOW IT WORKS</p>
+      <h2 class="section-title">How it works</h2>
       <div class="steps">
         <div class="step"><span>01</span><strong>Post</strong>
           <p>Share the details of an item you lost or found.</p>
@@ -197,10 +191,9 @@
 
     <section id="about-us" class="about-us" aria-label="About FindIT">
       <div class="about-header">
-        <p class="section-kicker">04 / ABOUT US</p>
         <h2>About FindIT</h2>
         <p class="about-copy">
-          FindIT is a campus digital lost-and-found bulletin board designed to give students, faculty, and staff 
+          FindIT is a campus digital lost-and-found bulletin board designed to give students, faculty, and staff
           one organized, searchable place to report, track, and return misplaced belongings on campus.
         </p>
       </div>
@@ -208,28 +201,33 @@
       <div class="about-grid">
         <article class="about-card">
           <div class="about-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <polygon points="12 8 8 12 12 16 16 12 12 8"></polygon>
             </svg>
           </div>
           <h3>Our Mission</h3>
-          <p>Replace lost items getting buried in random social media feeds and group chats with a central, searchable community bulletin.</p>
+          <p>Replace lost items getting buried in random social media feeds and group chats with a central, searchable
+            community bulletin.</p>
         </article>
 
         <article class="about-card">
           <div class="about-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
             </svg>
           </div>
           <h3>Event-Driven App</h3>
-          <p>Built with modern JavaScript event listeners, real-time filtering, localStorage persistence, and responsive UI updates without page reloads.</p>
+          <p>Built with modern JavaScript event listeners, real-time filtering, localStorage persistence, and responsive
+            UI updates without page reloads.</p>
         </article>
 
         <article class="about-card">
           <div class="about-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -237,7 +235,8 @@
             </svg>
           </div>
           <h3>EDP - Group 4</h3>
-          <p>Developed as a Final Project for Event-Driven Programming (EDP), November 2026, dedicated to serving our campus community.</p>
+          <p>Developed as a Final Project for Event-Driven Programming (EDP), November 2026, dedicated to serving our
+            campus community.</p>
         </article>
       </div>
     </section>

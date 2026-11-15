@@ -501,4 +501,13 @@ function initNavigation() {
 
 initNavigation();
 
+// Header turns solid once the page scrolls past the hero's top edge
+(function initHeaderState() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+  const update = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+})();
+
 renderPosts();
