@@ -1,63 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FindIT campus lost and found bulletin board">
-  <title>FindIT | Campus Lost &amp; Found</title>
+  <meta name="description" content="WayBack: the campus lost and found bulletin board">
+  <meta name="theme-color" content="#0f3d2e">
+  <title>WayBack | Campus Lost &amp; Found</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../app.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <a class="skip-link" href="#community-board">Skip to the board</a>
+
   <header class="site-header">
     <div class="container header-content">
-      <a class="brand" href="#top" aria-label="FindIT home">
-        <span class="brand-mark">F</span>
-        <span>Find<span class="brand-accent">IT</span></span>
+      <a class="brand" href="#top" aria-label="WayBack home">
+        <img src="logo.svg" alt="" class="brand-mark" width="40" height="40">
+        <span class="brand-name">Way<strong>Back</strong></span>
       </a>
-      <div class="header-note">
-        <span class="status-dot"></span>
-        Campus community board
-      </div>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle menu" aria-expanded="false"
+        aria-controls="primaryNav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="primary-nav" id="primaryNav" aria-label="Main navigation">
+        <a class="active" href="#top" aria-current="page">Home</a>
+        <a href="#community-board">Board</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#about-us">About</a>
+      </nav>
     </div>
   </header>
 
-  <main id="top" class="container">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">LOST SOMETHING? FOUND SOMETHING?</p>
-        <h1>Find what matters.<br><em>Return what’s found.</em></h1>
-        <p class="hero-copy">A simple, organized place for our campus community to report lost items and help them find their way home.</p>
+  <section id="top" class="hero" aria-label="WayBack campus community bulletin">
+    <div class="container hero-wrap">
+      <div class="hero-inner">
+        <div class="hero-kicker">
+          <span class="status-dot"></span>
+          <span>Campus community bulletin</span>
+          <span class="kicker-sep" aria-hidden="true"></span>
+          <span><strong id="openCount">0</strong> active reports</span>
+        </div>
+        <h1 class="hero-title">
+          <span class="title-line">Lost something?</span>
+          <span class="title-line title-accent">Let it find its way back.</span>
+        </h1>
+        <p class="hero-copy">
+          WayBack is one organized place for our campus to report lost items, browse found belongings,
+          and return them to their owners.
+        </p>
         <div class="hero-actions">
-          <a class="hero-button hero-button-primary" href="#community-board">Browse the board <span>→</span></a>
-          <a class="hero-button hero-button-secondary" href="#post-item">Post an item</a>
+          <a class="hero-button hero-button-primary" href="#community-board">Browse the board</a>
+          <a class="hero-button hero-button-secondary" href="#post-item">Report an item</a>
         </div>
       </div>
-      <div class="hero-side">
-        <div class="hero-count">
-          <strong id="openCount">0</strong>
-          <span>OPEN POSTS<br>ON THE BOARD</span>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="radar">
+          <span class="ring r1"></span>
+          <span class="ring r2"></span>
+          <span class="ring r3"></span>
+          <span class="sweep"></span>
+          <span class="blip b1"></span>
+          <span class="blip b2"></span>
+          <span class="blip b3"></span>
+          <img src="logo.svg" alt="" class="radar-logo" width="84" height="84">
         </div>
-        <a class="scroll-hint" href="#post-item"><span>↓</span> Start here</a>
       </div>
-    </section>
+    </div>
+  </section>
 
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>Report it</span><span>Search it</span><span>Claim it</span><span>Return it</span>
+      <span>Report it</span><span>Search it</span><span>Claim it</span><span>Return it</span>
+      <span>Report it</span><span>Search it</span><span>Claim it</span><span>Return it</span>
+      <span>Report it</span><span>Search it</span><span>Claim it</span><span>Return it</span>
+    </div>
+  </div>
+
+  <main class="container">
     <section class="summary-grid" aria-label="Board summary">
       <article class="summary-card">
         <strong id="totalCount">0</strong>
-        <span>Total Posts</span>
+        <span>Total posts</span>
       </article>
-      <article class="summary-card">
+      <article class="summary-card card-lost">
         <strong id="openLostCount">0</strong>
-        <span>Open Lost</span>
+        <span>Open lost</span>
       </article>
-      <article class="summary-card">
+      <article class="summary-card card-found">
         <strong id="openFoundCount">0</strong>
-        <span>Open Found</span>
+        <span>Open found</span>
       </article>
-      <article class="summary-card">
+      <article class="summary-card card-resolved">
         <strong id="resolvedCount">0</strong>
         <span>Resolved</span>
       </article>
@@ -66,67 +107,100 @@
     <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
 
     <section class="workspace" aria-label="Post and community board">
-      <aside id="post-item" class="panel form-panel">
-        <div class="panel-heading">
+      <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+      <aside id="post-item" class="drawer" data-type="Lost" role="dialog" aria-modal="true" aria-labelledby="formTitle"
+        aria-hidden="true" tabindex="-1">
+        <div class="drawer-head">
           <div>
-            <p class="section-kicker">01 / POST AN ITEM</p>
             <h2 id="formTitle">Create a post</h2>
+            <p class="panel-sub">Fill in the details so the right person can recognize it.</p>
           </div>
-          <span class="heading-icon">+</span>
+          <button id="closeDrawer" class="drawer-close" type="button" aria-label="Close form">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+              stroke-linecap="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+          </button>
         </div>
+        <div class="drawer-body">
         <form id="postForm" novalidate>
           <input type="hidden" id="postId">
+
           <div class="field">
-            <label for="type">This item was...</label>
-            <select id="type" required>
-              <option value="Lost">Lost</option>
-              <option value="Found">Found</option>
-            </select>
+            <span class="label" id="typeLabel">This item was...</span>
+            <div class="segmented" role="radiogroup" aria-labelledby="typeLabel" id="typeSegment">
+              <button type="button" role="radio" aria-checked="true" data-value="Lost" class="seg active">Lost</button>
+              <button type="button" role="radio" aria-checked="false" data-value="Found" class="seg">Found</button>
+            </div>
+            <input type="hidden" id="type" value="Lost">
+            <p class="type-hint" id="typeHint"></p>
           </div>
+
           <div class="field">
             <label for="item">Item name</label>
             <input id="item" type="text" maxlength="60" placeholder="e.g. Black leather wallet" required>
           </div>
+
           <div class="field">
-            <label for="description">Description</label>
-            <textarea id="description" maxlength="240" rows="3" placeholder="Color, brand, distinguishing details..." required></textarea>
+            <label for="description">Description <span class="char-count" id="descCount">0/240</span></label>
+            <textarea id="description" maxlength="240" rows="3" placeholder="Color, brand, distinguishing details..."
+              required></textarea>
           </div>
+
+          <div class="field">
+            <label for="itemImage">Item photo <span class="field-hint">(optional, up to 1 MB)</span></label>
+            <input id="itemImage" class="image-input" type="file" accept="image/jpeg,image/png,image/webp">
+            <div id="imagePreview" class="image-preview hidden">
+              <img id="imagePreviewPhoto" alt="Preview of the selected item photo">
+              <button id="removeImage" class="text-button delete" type="button">Remove photo</button>
+            </div>
+          </div>
+
           <div class="field-row">
             <div class="field">
-              <label for="location">Location</label>
+              <label for="location" id="locationLabel">Location</label>
               <input id="location" type="text" maxlength="80" placeholder="e.g. Main Library" required>
             </div>
             <div class="field">
-              <label for="date">Date</label>
+              <label for="date" id="dateLabel">Date</label>
               <input id="date" type="date" required>
             </div>
           </div>
+
           <div class="field">
             <label for="contact">Contact information <span class="field-hint">(must be unique)</span></label>
             <input id="contact" type="text" maxlength="100" placeholder="Email, phone, or social handle" required>
           </div>
+
           <div class="form-actions">
-            <button class="button button-primary" type="submit"><span id="submitText">Publish This Post</span></button>
+            <button class="button button-primary" type="submit"><span id="submitText">Publish this post</span></button>
             <button class="button button-quiet hidden" id="cancelEdit" type="button">Cancel edit</button>
           </div>
         </form>
         <p class="form-footnote">Be specific and keep your contact information up to date.</p>
+        </div>
       </aside>
 
       <section id="community-board" class="board">
         <div class="board-heading">
           <div>
-            <p class="section-kicker">02 / COMMUNITY BOARD</p>
             <h2>Recent reports <span id="resultCount" class="result-count">0</span></h2>
+            <p class="board-sub">Search the board or filter by type and status.</p>
           </div>
-          <span class="board-label">COMMUNITY BOARD</span>
+          <button id="openFormBtn" class="report-btn" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"
+              stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+            Report item
+          </button>
         </div>
 
         <div class="controls panel">
           <div class="search-wrap">
-            <span class="search-icon">⌕</span>
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.3-4.3"></path>
+            </svg>
             <label class="sr-only" for="search">Search posts</label>
-            <input id="search" type="search" placeholder="Search item or location...">
+            <input id="search" type="search" placeholder="Search item, description or location...">
           </div>
           <div class="control-selects">
             <label class="sr-only" for="typeFilter">Filter by type</label>
@@ -153,21 +227,100 @@
       </section>
     </section>
 
-    <section class="how-it-works">
-      <p class="section-kicker">03 / HOW IT WORKS</p>
+    <section id="how-it-works" class="section-card how-it-works">
+      <h2 class="section-title">How it works</h2>
       <div class="steps">
-        <div class="step"><span>01</span><strong>Post</strong><p>Share the details of an item you lost or found.</p></div>
-        <div class="step"><span>02</span><strong>Search</strong><p>Browse the board or filter by type and status.</p></div>
-        <div class="step"><span>03</span><strong>Resolve</strong><p>Connect, return the item, and close the post.</p></div>
+        <div class="step">
+          <div class="step-header">
+            <span>1</span>
+            <strong>Post</strong>
+          </div>
+          <p>Share the details of an item you lost or found.</p>
+        </div>
+        <div class="step">
+          <div class="step-header">
+            <span>2</span>
+            <strong>Search</strong>
+          </div>
+          <p>Browse the board or filter by type and status.</p>
+        </div>
+        <div class="step">
+          <div class="step-header">
+            <span>3</span>
+            <strong>Resolve</strong>
+          </div>
+          <p>Connect, return the item, and close the post.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-us" class="section-card about-us" aria-label="About WayBack">
+      <div class="about-header">
+        <div class="about-header-content">
+          <h2 class="section-title">About WayBack</h2>
+          <p class="about-copy">
+            WayBack is a campus digital lost-and-found bulletin board designed to give students, faculty, and staff
+            one organized, searchable place to report, track, and return misplaced belongings.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <article class="about-card">
+          <div class="about-card-header">
+            <div class="about-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="12 8 8 12 12 16 16 12 12 8"></polygon>
+              </svg>
+            </div>
+            <h3>Our Mission</h3>
+          </div>
+          <p>Stop lost items from getting buried in random social media feeds and group chats. WayBack is a central,
+            searchable community bulletin.</p>
+        </article>
+
+        <article class="about-card">
+          <div class="about-card-header">
+            <div class="about-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+            </div>
+            <h3>Event-Driven App</h3>
+          </div>
+          <p>Built with JavaScript event listeners, live filtering, localStorage persistence, and responsive updates
+            without page reloads.</p>
+        </article>
+
+        <article class="about-card">
+          <div class="about-card-header">
+            <div class="about-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <h3>EDP - Group 4</h3>
+          </div>
+          <p>Developed as a Final Project for Event-Driven Programming (EDP), November 2026, dedicated to serving our
+            campus community.</p>
+        </article>
       </div>
     </section>
   </main>
 
   <div id="deleteDialog" class="modal-backdrop hidden" role="presentation">
-    <section class="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="deleteDialogTitle" aria-describedby="deleteDialogMessage">
+    <section class="delete-dialog" role="dialog" aria-modal="true" aria-labelledby="deleteDialogTitle"
+      aria-describedby="deleteDialogMessage">
       <div class="delete-dialog-heading">
         <h2 id="deleteDialogTitle">Delete confirmation</h2>
-        <span>!</span>
+        <span aria-hidden="true">!</span>
       </div>
       <div class="delete-dialog-body">
         <h3 id="deleteDialogQuestion">Delete this post?</h3>
@@ -180,9 +333,13 @@
     </section>
   </div>
 
+  <button id="backToTop" class="back-to-top hidden" type="button" aria-label="Back to top">↑</button>
+
   <footer class="site-footer">
-    <div class="container"><span>FINDIT / CAMPUS BULLETIN BOARD</span><span>Helping campus items find their way home</span></div>
+    <div class="container"><span>WAYBACK / CAMPUS BULLETIN BOARD</span><span>Helping campus items find their way
+        back</span></div>
   </footer>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
+
 </html>
