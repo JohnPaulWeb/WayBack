@@ -57,7 +57,7 @@ export function setupFormHandler(elements, { posts, onSavePosts, onRenderPosts, 
     elements.dateLabel.textContent = isFound ? "Date found" : "Date lost";
     elements.item.placeholder = isFound ? "e.g. Blue umbrella" : "e.g. Black leather wallet";
     elements.location.placeholder = isFound ? "e.g. Canteen, Table 4" : "e.g. Main Library";
-    elements.contact.placeholder = isFound ? "How the owner can reach you" : "Email, phone, or social handle";
+    elements.contact.placeholder = isFound ? "09XXXXXXXXX or name@gmail.com" : "09XXXXXXXXX or name@gmail.com";
     if (!elements.postId.value) {
       elements.submitText.textContent = isFound ? "Post found item" : "Post lost item";
     }
@@ -94,6 +94,26 @@ export function setupFormHandler(elements, { posts, onSavePosts, onRenderPosts, 
       showFeedback("Please complete every field before publishing.", elements, true);
       return false;
     }
+    const contactValue = elements.contact.value.trim();
+    const isPhone = /^\d+$/.test(contactValue);
+    const isEmail = contactValue.includes("@");
+
+    if (isPhone) {
+      if (!/^09\d{9}$/.test(contactValue)) {
+        elements.contact.classList.add("invalid");
+        elements.contact.focus();
+        showFeedback("Phone number must be 11 digits and start with 09 (e.g. 09123456789).", elements, true);
+        return false;
+      }
+    } else if (isEmail) {
+      if (!/^[^\s@]+@gmail\.com$/i.test(contactValue)) {
+        elements.contact.classList.add("invalid");
+        elements.contact.focus();
+        showFeedback("Email must be a valid Gmail address ending in @gmail.com.", elements, true);
+        return false;
+      }
+    }
+
     const normalizedContact = normalizeContact(elements.contact.value);
     const isDuplicateContact = posts.some((post) =>
       post.id !== elements.postId.value && normalizeContact(post.contact) === normalizedContact

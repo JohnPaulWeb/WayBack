@@ -31,7 +31,6 @@
 html {
   scroll-behavior: auto;
   overflow-x: clip;
-  overflow-y: hidden;
   scroll-padding-top: 90px;
   color-scheme: dark;
 }
@@ -970,7 +969,9 @@ select:focus {
 .board-heading {
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
 }
 
 .result-count {
@@ -1697,12 +1698,6 @@ select:focus {
 
 
 /* ---------- Layout polish: full-width board + slide-in form ---------- */
-.board-heading {
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
 .board-sub {
   margin-top: 4px;
   color: var(--muted);

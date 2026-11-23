@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0d211a"/>
+      <stop offset="100%" stop-color="#06130d"/>
+    </radialGradient>
+    <filter id="limeGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pinShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#d4f459" flood-opacity="0.35"/>
+    </filter>
+    <clipPath id="circleClip">
+      <circle cx="160" cy="160" r="148"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="160" cy="160" r="150" fill="url(#bgGrad)" stroke="#d4f459" stroke-width="1.5" stroke-opacity="0.35"/>
+
+  <!-- Radar rings — fills the circle -->
+  <g clip-path="url(#circleClip)">
+    <circle cx="160" cy="160" r="148" fill="none" stroke="#2fbf86" stroke-width="1"   stroke-opacity="0.18"/>
+    <circle cx="160" cy="160" r="118" fill="none" stroke="#2fbf86" stroke-width="1"   stroke-opacity="0.24"/>
+    <circle cx="160" cy="160" r="88"  fill="none" stroke="#2fbf86" stroke-width="1.2" stroke-opacity="0.30"/>
+    <circle cx="160" cy="160" r="58"  fill="none" stroke="#2fbf86" stroke-width="1.2" stroke-opacity="0.36"/>
+    <circle cx="160" cy="160" r="28"  fill="none" stroke="#2fbf86" stroke-width="1.2" stroke-opacity="0.42"/>
+
+    <!-- Crosshair lines -->
+    <line x1="160" y1="12"  x2="160" y2="308" stroke="#2fbf86" stroke-width="0.6" stroke-opacity="0.15"/>
+    <line x1="12"  y1="160" x2="308" y2="160" stroke="#2fbf86" stroke-width="0.6" stroke-opacity="0.15"/>
+
+    <!-- Radar sweep -->
+    <path d="M160 160 L160 12 A148 148 0 0 1 288 234 Z"
+          fill="#d4f459" fill-opacity="0.07"/>
+    <line x1="160" y1="160" x2="160" y2="12"
+          stroke="#d4f459" stroke-width="1.4" stroke-opacity="0.5"/>
+    <line x1="160" y1="160" x2="288" y2="234"
+          stroke="#d4f459" stroke-width="1.4" stroke-opacity="0.5"/>
+  </g>
+
+  <!-- Blips -->
+  <circle cx="205" cy="90"  r="4.5" fill="#d4f459" filter="url(#limeGlow)" opacity="0.95"/>
+  <circle cx="118" cy="128" r="3.2" fill="#2fbf86" filter="url(#limeGlow)" opacity="0.80"/>
+  <circle cx="240" cy="175" r="2.8" fill="#d4f459" filter="url(#limeGlow)" opacity="0.60"/>
+  <circle cx="88"  cy="200" r="2.2" fill="#2fbf86" filter="url(#limeGlow)" opacity="0.45"/>
+
+  <!-- Location pin -->
+  <path d="M160 72 C140 72 124 88 124 108 C124 134 160 168 160 168 C160 168 196 134 196 108 C196 88 180 72 160 72 Z"
+        fill="#d4f459" filter="url(#pinShadow)"/>
+
+  <!-- Pin inner circle cutout -->
+  <circle cx="160" cy="107" r="15" fill="#06130d"/>
+
+  <!-- Back arrow inside pin -->
+  <path d="M166 107 L156 100 L156 104 L150 104 L150 110 L156 110 L156 114 Z"
+        fill="#d4f459"/>
+</svg>
